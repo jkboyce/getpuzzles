@@ -1,0 +1,11 @@
+# See gitignore(5) or http://git-scm.com/docs/gitignore for syntax.
+#
+# These should all be checked.  bin is questionable, as it would match
+# directories we have checked in currently.  Therefore it is disabled.
+.DS_Store
+/bin
+/build
+/src_holding
+/temp
+/unused
+*.puz
