@@ -5,7 +5,7 @@
 .DS_Store
 *.jar
 /build
-/src_holding
+/src/unused
 /temp
 /unused
 *.puz

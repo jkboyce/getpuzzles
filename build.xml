@@ -21,7 +21,7 @@
     <target name="compile" depends="init">
         <javac debug="${debug}" srcdir="${src}/." destdir="${build}/."
             target="1.8" source="1.8" deprecation="${deprecation}"
-            includeAntRuntime="false" includes="**">
+            includeAntRuntime="false" includes="**" excludes="unused/**">
             <classpath refid="master-classpath" />
             <compilerarg value="-Xlint:-options"/>
             <compilerarg value="-Xlint:unchecked"/>
