@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Build file for `xworddl` crossword downloader. -->
+<!-- Build file for `getpuzzles` crossword downloader. -->
 <!-- For use with the Apache Ant Java build tool (http://ant.apache.org) -->
 
 <project name="getpuzzles" default="jar" basedir=".">

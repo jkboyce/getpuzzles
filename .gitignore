@@ -3,7 +3,7 @@
 # These should all be checked.  bin is questionable, as it would match
 # directories we have checked in currently.  Therefore it is disabled.
 .DS_Store
-/bin
+*.jar
 /build
 /src_holding
 /temp
