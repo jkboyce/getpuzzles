@@ -53,12 +53,12 @@ public class Getpuzzles {
                 "    <source>+    is a space-separated list of one or more puzzle sources.\n" +
                 "    <directory>  is an optional directory to save into.\n\n" +
                 "Recognized sources are:");
+            System.out.println("    all          - all available sources");
             for (String[] dl_tuple : dls) {
                 String dl_name = dl_tuple[0];
                 String dl_description = dl_tuple[1];
                 System.out.println(String.format("    %1$-13s- %2$s", dl_name, dl_description));
             }
-            System.out.println("    all          - all available sources");
             return;
         }
 
@@ -71,7 +71,8 @@ public class Getpuzzles {
         } catch (ParseException pe) {
         }
 
-        String datestring = String.format("%1$04d-%2$02d-%3$02d", date.getYear() + 1900, date.getMonth() + 1, date.getDate());
+        String datestring = String.format("%1$04d-%2$02d-%3$02d",
+                date.getYear() + 1900, date.getMonth() + 1, date.getDate());
 
         for (String arg : gpargs) {
             boolean found = false;

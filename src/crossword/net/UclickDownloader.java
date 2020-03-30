@@ -10,7 +10,7 @@ import java.net.URL;
 // import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
-import java.util.logging.Level;
+// import java.util.logging.Level;
 
 import com.totsp.crossword.io.UclickXMLIO;
 
@@ -61,17 +61,21 @@ public class UclickDownloader extends AbstractDownloader {
     @Override
     public File download(Date date) {
         File downloadTo = new File(this.downloadDirectory, this.createFileName(date));
+
+        System.out.println("    saving to location: " + downloadTo.getAbsolutePath());
         if (downloadTo.exists()) {
+            System.out.println("    puzzle file already exists.");
             return null;
         }
 
         File plainText = downloadToTempFile(date);
         if (plainText == null) {
+            downloadTo.delete();
             return null;
         }
 
         try {
-        	LOG.log(Level.INFO, "TMP FILE " + plainText.getAbsolutePath());
+        	//LOG.log(Level.INFO, "TMP FILE " + plainText.getAbsolutePath());
             InputStream is = new FileInputStream(plainText);
             DataOutputStream os = new DataOutputStream(new FileOutputStream(downloadTo));
             boolean retVal = UclickXMLIO.convertUclickPuzzle(is, os,
@@ -81,12 +85,14 @@ public class UclickDownloader extends AbstractDownloader {
             plainText.delete();
 
             if (!retVal) {
-                LOG.log(Level.SEVERE, "Unable to convert uclick XML puzzle into Across Lite format.");
+                System.out.println("    ERROR: unable to convert puzzle into Across Lite format.");
+                // LOG.log(Level.SEVERE, "Unable to convert uclick XML puzzle into Across Lite format.");
                 downloadTo.delete();
                 downloadTo = null;
             }
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE, "Exception converting uclick XML puzzle into Across Lite format.", ioe);
+            System.out.println("    ERROR: exception converting puzzle into Across Lite format.");
+            // LOG.log(Level.SEVERE, "Exception converting uclick XML puzzle into Across Lite format.", ioe);
             downloadTo.delete();
             downloadTo = null;
         }
@@ -105,27 +111,26 @@ public class UclickDownloader extends AbstractDownloader {
 
         try {
             URL url = new URL(this.baseUrl + this.createUrlSuffix(date));
-            LOG.log(Level.INFO, this.fullName + " " + url.toExternalForm());
+            // LOG.log(Level.INFO, this.fullName + " " + url.toExternalForm());
+            System.out.println("    downloading " + url.toExternalForm());
+
             downloadFile(url, f);
         } catch (Exception e) {
-            e.printStackTrace();
-            f = null;
-        }
-
-        if (f == null) {
-            LOG.log(Level.SEVERE, "Unable to download uclick XML file.");
+            // LOG.log(Level.SEVERE, "Unable to download uclick XML file.");
+            System.out.println("    ERROR: unable to download puzzle XML file.");
+            // e.printStackTrace();
 
             return null;
         }
 
         try {
-
             File tmpFile = new File(this.tempFolder, "uclick-temp"+System.currentTimeMillis()+".xml");
             f.renameTo(tmpFile);
 
             return tmpFile;
         } catch (Exception e) {
-            LOG.log(Level.SEVERE, "Unable to move uclick XML file to temporary location.");
+            // LOG.log(Level.SEVERE, "Unable to move uclick XML file to temporary location.");
+            System.out.println("    ERROR: unable to move puzzle XML file to temporary location..");
 
             return null;
         }

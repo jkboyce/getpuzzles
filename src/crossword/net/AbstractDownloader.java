@@ -25,14 +25,25 @@ public abstract class AbstractDownloader {
     // return a list of available downloaders
     public static ArrayList<String[]> getDownloaders() {
         return new ArrayList<String[]>(Arrays.<String[]>asList(
-            new String[]{"crnet", "Newsday (daily)"}
+            new String[]{"crnet", "Newsday (daily)"},
+            new String[]{"usaon", "USA Today (Monday-Saturday, not holidays)"},
+            new String[]{"fcx", "Universal (daily)"}
+            // new String[]{"lacal", "LA Times Sunday Calendar (Sunday)"}
         ));
     }
 
     // return a downloader instance
     public static AbstractDownloader getDownloader(String name) {
         if (name.equals("crnet"))
-            return new UclickDownloader("crnet", "Newsday", "copyright");
+            return new UclickDownloader("crnet", "Newsday", "Newsday");
+        if (name.equals("usaon"))
+            return new UclickDownloader("usaon", "USA Today", "USA Today");
+        if (name.equals("fcx"))
+            return new UclickDownloader("fcx", "Universal", "Universal");
+        /*
+        if (name.equals("lacal"))
+            return new UclickDownloader("lacal", "LA Times Sunday Calendar", "LA Times");
+        */
         return null;
     }
 
@@ -64,8 +75,9 @@ public abstract class AbstractDownloader {
     }
 
     public String createFileName(Date date) {
-        return (date.getYear() + 1900) + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "-" +
-        this.downloaderName.replaceAll(" ", "") + ".puz";
+        return String.format("%1$04d-%2$02d-%3$02d",
+               date.getYear() + 1900, date.getMonth() + 1, date.getDate()) +
+               "-" + this.downloaderName.replaceAll(" ", "") + ".puz";
     }
 
     public String sourceUrl(Date date) {
@@ -131,8 +143,9 @@ public abstract class AbstractDownloader {
     }
     */
 
-    // utility function to download file from a URL
-    protected static boolean downloadFile(URL url, File destination) {
+    // Utility function to download file from a URL.
+    // returns true on success, false on failure
+    protected static void downloadFile(URL url, File destination) throws IOException {
         // System.out.println("downloading url "+url.toString()+" to file "+destination.getAbsolutePath());
         FileOutputStream fos = null;
 
@@ -145,10 +158,8 @@ public abstract class AbstractDownloader {
                 fos.write(dataBuffer, 0, bytesRead);
             }
             fos.close();
-            return true;
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw e;
         } finally {
             if (fos != null){
                 try {
