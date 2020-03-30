@@ -1,4 +1,5 @@
 # Getpuzzles
+![](https://github.com/jkboyce/getpuzzles/workflows/Java%20CI/badge.svg)
 
 Getpuzzles is a simple command-line application to download crossword puzzles from a variety of sources on the internet, and convert them to Across Lite (.puz) format on your local computer.
 
