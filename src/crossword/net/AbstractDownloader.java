@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Arrays;
+//import java.util.Collections;
 import java.util.Date;
-import java.util.Map;
+//import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +19,25 @@ import com.totsp.crossword.puz.PuzzleMeta;
 
 
 public abstract class AbstractDownloader {
+    protected static final Logger LOG = Logger.getLogger("com.totsp.crossword");
+    public static File DOWNLOAD_DIR = new File(".");
+
+    // return a list of available downloaders
+    public static ArrayList<String[]> getDownloaders() {
+        return new ArrayList<String[]>(Arrays.<String[]>asList(
+            new String[]{"crnet", "Newsday (daily)"}
+        ));
+    }
+
+    // return a downloader instance
+    public static AbstractDownloader getDownloader(String name) {
+        if (name.equals("crnet"))
+            return new UclickDownloader("crnet", "Newsday", "copyright");
+        return null;
+    }
+
     // These lists must be sorted for binary search.
+    /*
     int[] DATE_SUNDAY = new int[] { 0 };
     int[] DATE_MONDAY = new int[] { 1 };
     int[] DATE_TUESDAY = new int[] { 2 };
@@ -27,14 +47,14 @@ public abstract class AbstractDownloader {
     int[] DATE_SATURDAY = new int[] { 6 };
     int[] DATE_DAILY = new int[] { 0, 1, 2, 3, 4, 5, 6 };
     int[] DATE_NO_SUNDAY = new int[] { 1, 2, 3, 4, 5, 6 };
+    */
 
-    protected static final Logger LOG = Logger.getLogger("com.totsp.crossword");
-    public static File DOWNLOAD_DIR = new File(".");
     protected File downloadDirectory;
     protected String baseUrl;
     private String downloaderName;
     protected File tempFolder;
 
+    // constructor
     protected AbstractDownloader(String baseUrl, File downloadDirectory, String downloaderName) {
         this.baseUrl = baseUrl;
         this.downloadDirectory = downloadDirectory;
@@ -113,7 +133,7 @@ public abstract class AbstractDownloader {
 
     // utility function to download file from a URL
     protected static boolean downloadFile(URL url, File destination) {
-        // System.out.println("trying to download url "+url.toString()+" to file "+destination.getAbsolutePath());
+        // System.out.println("downloading url "+url.toString()+" to file "+destination.getAbsolutePath());
         FileOutputStream fos = null;
 
         try {

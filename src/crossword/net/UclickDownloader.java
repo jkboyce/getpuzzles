@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.DateFormat;
+// import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -29,20 +29,20 @@ public class UclickDownloader extends AbstractDownloader {
     private String copyright;
     private String fullName;
     private String shortName;
-    private int[] days;
+    // private int[] days;
 
-    public UclickDownloader(String prefix, String shortName, String fullName, String copyright, int[] days) {
+    public UclickDownloader(String prefix, String shortName, String fullName, String copyright /*, int[] days */) {
         super(prefix + shortName + "/data/", DOWNLOAD_DIR, fullName);
         this.shortName = shortName;
         this.fullName = fullName;
         this.copyright = copyright;
-        this.days = days;
+        //this.days = days;
         nf.setMinimumIntegerDigits(2);
         nf.setMaximumFractionDigits(0);
     }
 
-    public UclickDownloader(String shortName, String fullName, String copyright, int[] days) {
-        this("http://picayune.uclick.com/comics/", shortName, fullName, copyright, days);
+    public UclickDownloader(String shortName, String fullName, String copyright /*, int[] days */) {
+        this("http://picayune.uclick.com/comics/", shortName, fullName, copyright /*, days */);
     }
 
     /*
