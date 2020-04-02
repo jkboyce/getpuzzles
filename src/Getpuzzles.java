@@ -44,7 +44,7 @@ public class Getpuzzles {
             System.out.println(
                 "Getpuzzles version 1.0\n" +
                 "https://github.com/jkboyce/getpuzzles\n" +
-                "This program is released under the GNU General Public License v2.\n\n" +
+                "This program is released under the GNU General Public License v3.\n\n" +
                 "Downloads crossword puzzles from a variety of sources on the internet and saves\n" +
                 "them in Across Lite (.puz) format. Nearly all of this code is adapted from\n" +
                 "Robert Cooper's `Shortyz` app for Android. https://github.com/kebernet/shortyz\n\n" +
